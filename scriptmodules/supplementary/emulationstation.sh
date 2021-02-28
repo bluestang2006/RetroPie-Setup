@@ -300,6 +300,13 @@ function configure_emulationstation() {
     else
         rmDirExists "$rootdir/$md_type/emulationstation-dev"
     fi
+	if [[ "$md_id" == "emulationstation-test" ]]; then
+        if [[ -d "$rootdir/$md_type/emulationstation" ]]; then
+        rmDirExists "$rootdir/$md_type/emulationstation"
+        fi
+    else
+        rmDirExists "$rootdir/$md_type/emulationstation-dev"
+    fi
 
     init_input_emulationstation
 
