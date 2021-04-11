@@ -1,0 +1,60 @@
+diff --git a/.gitignore b/.gitignore
+index c1190ff5..181d6456 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -3,7 +3,6 @@
+ *.Td
+ OpenBOR.elf
+ meta.xml
+-/engine/version.h
+ /engine/resources/Info.plist
+ engine/releases/
+ /engine/ide/vs/.vs/
+diff --git a/engine/Makefile b/engine/Makefile
+index 6ca8a08b..7ee439ea 100644
+--- a/engine/Makefile
++++ b/engine/Makefile
+@@ -129,7 +129,7 @@ CFLAGS          += -DAMD64
+ CFLAGS          += -Wno-error=format-overflow -Wno-error=stringop-truncation -Wno-error=stringop-overflow
+ endif
+ 
+-ifdef BUILD_LINUX_LE_arm
++ifdef BUILD_LINUX_arm
+ TARGET 	        = $(VERSION_NAME).elf
+ TARGET_FINAL    = $(VERSION_NAME)
+ TARGET_PLATFORM = LINUX
+@@ -241,7 +241,7 @@ ifdef BUILD_WIN
+ STRIP 	        = $(WINDEV)/$(PREFIX)strip$(EXTENSION) $(TARGET) -o $(TARGET_FINAL)
+ endif
+ ifdef BUILD_LINUX
+-STRIP 	        = $(LNXDEV)/$(PREFIX)strip $(TARGET) -o $(TARGET_FINAL)
++STRIP 	        = $(LNXDEV)strip $(TARGET) -o $(TARGET_FINAL)
+ endif
+ ifdef BUILD_DARWIN
+ STRIP           = $(PREFIX)strip $(TARGET) -o $(TARGET_FINAL)
+diff --git a/engine/version.h b/engine/version.h
+new file mode 100644
+index 00000000..2f43a959
+--- /dev/null
++++ b/engine/version.h
+@@ -0,0 +1,20 @@
++/*
++ * OpenBOR - http://www.ChronoCrash.com
++ * -----------------------------------------------------------------------
++ * All rights reserved, see LICENSE in OpenBOR root for details.
++ *
++ * Copyright (c) 2004 - 2014 OpenBOR Team
++ */
++
++#ifndef VERSION_H
++#define VERSION_H
++
++#define VERSION_NAME "OpenBOR"
++#define VERSION_MAJOR "3"
++#define VERSION_MINOR "0"
++#define VERSION_BUILD "7104"
++#define VERSION_BUILD_INT 7104
++#define VERSION_COMMIT "f883854"
++#define VERSION "v"VERSION_MAJOR"."VERSION_MINOR" Build "VERSION_BUILD" (commit hash: "VERSION_COMMIT")"
++
++#endif
