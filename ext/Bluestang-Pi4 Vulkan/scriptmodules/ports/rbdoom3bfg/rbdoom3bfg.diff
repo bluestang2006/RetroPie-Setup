@@ -1,0 +1,82 @@
+diff --git a/neo/cmake-rpi4-clang-linux-vulkan-debug.sh b/neo/cmake-rpi4-clang-linux-vulkan-debug.sh
+new file mode 100755
+index 0000000..eb27eed
+--- /dev/null
++++ b/neo/cmake-rpi4-clang-linux-vulkan-debug.sh
+@@ -0,0 +1,5 @@
++cd ..
++rm -rf build
++mkdir build
++cd build
++cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DSDL2=ON -DUSE_VULKAN=ON -DSPIRV_SHADERC=OFF -DUSE_INTRINSICS=OFF -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DUSE_PRECOMPILED_HEADERS=OFF -Wno-dev ../neo
+diff --git a/neo/cmake-rpi4-clang-linux-vulkan-release.sh b/neo/cmake-rpi4-clang-linux-vulkan-release.sh
+new file mode 100755
+index 0000000..368d0b6
+--- /dev/null
++++ b/neo/cmake-rpi4-clang-linux-vulkan-release.sh
+@@ -0,0 +1,5 @@
++cd ..
++rm -rf build
++mkdir build
++cd build
++cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DSDL2=ON -DUSE_VULKAN=ON -DSPIRV_SHADERC=OFF -DUSE_INTRINSICS=OFF -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DUSE_PRECOMPILED_HEADERS=OFF -Wno-dev ../neo
+diff --git a/neo/cmake-rpi4-linux-vulkan-debug.sh b/neo/cmake-rpi4-linux-vulkan-debug.sh
+new file mode 100755
+index 0000000..f339dee
+--- /dev/null
++++ b/neo/cmake-rpi4-linux-vulkan-debug.sh
+@@ -0,0 +1,5 @@
++cd ..
++rm -rf build
++mkdir build
++cd build
++cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DSDL2=ON -DUSE_VULKAN=ON -DSPIRV_SHADERC=OFF -DUSE_INTRINSICS=OFF -Wno-dev ../neo
+diff --git a/neo/cmake-rpi4-linux-vulkan-release.sh b/neo/cmake-rpi4-linux-vulkan-release.sh
+new file mode 100755
+index 0000000..aa9ab55
+--- /dev/null
++++ b/neo/cmake-rpi4-linux-vulkan-release.sh
+@@ -0,0 +1,5 @@
++cd ..
++rm -rf build
++mkdir build
++cd build
++cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DSDL2=ON -DUSE_VULKAN=ON -DSPIRV_SHADERC=OFF -DUSE_INTRINSICS=OFF -Wno-dev ../neo
+diff --git a/neo/idlib/geometry/RenderMatrix.cpp b/neo/idlib/geometry/RenderMatrix.cpp
+index f7dfd5e..b0fda77 100644
+--- a/neo/idlib/geometry/RenderMatrix.cpp
++++ b/neo/idlib/geometry/RenderMatrix.cpp
+@@ -4383,13 +4383,15 @@ void idRenderMatrix::DepthBoundsForShadowBounds( float& min, float& max, const i
+ 	{
+ 		const idVec4& c = clippedPoints[i];
+ 
+-		assert( c.w > idMath::FLT_SMALLEST_NON_DENORMAL );
++		if ( c.w >idMath::FLT_SMALLEST_NON_DENORMAL )
++		{
+ 
+-		const float rw = 1.0f / c.w;
+-		const float pz = c.z * rw;
++			const float rw = 1.0f / c.w;
++			const float pz = c.z * rw;
+ 
+-		min = Min( min, pz );
+-		max = Max( max, pz );
++			min = Min( min, pz );
++			max = Max( max, pz );
++		}
+ 	}
+ 
+ 	if( windowSpace )
+diff --git a/neo/renderer/Vulkan/RenderBackend_VK.cpp b/neo/renderer/Vulkan/RenderBackend_VK.cpp
+index 9833cab..9eeb0cf 100644
+--- a/neo/renderer/Vulkan/RenderBackend_VK.cpp
++++ b/neo/renderer/Vulkan/RenderBackend_VK.cpp
+@@ -712,7 +712,7 @@ static void CreateLogicalDeviceAndQueues()
+ 	}
+ 
+ 	VkPhysicalDeviceFeatures deviceFeatures = {};
+-	deviceFeatures.textureCompressionBC = VK_TRUE;
++	deviceFeatures.textureCompressionBC = VK_FALSE;;
+ 	deviceFeatures.imageCubeArray = VK_TRUE;
+ 	deviceFeatures.depthClamp = VK_FALSE;
+ 	deviceFeatures.depthBiasClamp = VK_TRUE;
