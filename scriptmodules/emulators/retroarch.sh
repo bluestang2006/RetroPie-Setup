@@ -24,6 +24,7 @@ function depends_retroarch() {
     isPlatform "x11" && depends+=(libx11-xcb-dev libpulse-dev libvulkan-dev)
     isPlatform "vero4k" && depends+=(vero3-userland-dev-osmc zlib1g-dev libfreetype6-dev)
     isPlatform "kms" && depends+=(libgbm-dev)
+    isPlatform "vk" && depends+=(libvulkan-dev)
 
     if compareVersions "$__os_debian_ver" ge 9; then
         depends+=(libavcodec-dev libavformat-dev libavdevice-dev)
@@ -68,8 +69,8 @@ function build_retroarch() {
     isPlatform "kms" && params+=(--enable-kms --enable-egl)
     isPlatform "arm" && params+=(--enable-floathard)
     isPlatform "neon" && params+=(--enable-neon)
-    isPlatform "x11" && params+=(--enable-vulkan)
-    ! isPlatform "x11" && params+=(--disable-vulkan --disable-wayland)
+    isPlatform "x11" || isPlatform "vk" && params+=(--enable-vulkan --disable-wayland)
+    ! isPlatform "vk" && params+=(--disable-vulkan --disable-wayland)
     isPlatform "vero4k" && params+=(--enable-mali_fbdev --with-opengles_libs='-L/opt/vero3/lib')
     ./configure --prefix="$md_inst" "${params[@]}"
     make clean
