@@ -1,0 +1,15 @@
+diff --git a/src/vk/vk_util.c b/src/vk/vk_util.c
+index 3126bf5..8549d9b 100644
+--- a/src/vk/vk_util.c
++++ b/src/vk/vk_util.c
+@@ -80,8 +80,8 @@ memory_type_print(VkMemoryPropertyFlags mem_prop)
+ 	MPSTR(MEMORY_PROPERTY_HOST_CACHED_BIT, mem_prop);
+ 	MPSTR(MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT, mem_prop);
+ 	MPSTR(MEMORY_PROPERTY_PROTECTED_BIT, mem_prop);
+-	MPSTR(MEMORY_PROPERTY_DEVICE_COHERENT_BIT_AMD, mem_prop);
+-	MPSTR(MEMORY_PROPERTY_DEVICE_UNCACHED_BIT_AMD, mem_prop);
++	//MPSTR(MEMORY_PROPERTY_DEVICE_COHERENT_BIT_AMD, mem_prop);
++	//MPSTR(MEMORY_PROPERTY_DEVICE_UNCACHED_BIT_AMD, mem_prop);
+ 
+ #undef PMSTR
+ }
