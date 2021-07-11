@@ -236,7 +236,7 @@ function _mapPackage() {
                 local own_sdl2=1
                 # default to off for x11 targets due to issues with dependencies with recent
                 # Ubuntu (19.04). eg libavdevice58 requiring exactly 2.0.9 sdl2.
-                isPlatform "x11" && own_sdl2=0
+                isPlatform "x11" || isPlatform "vk" && own_sdl2=0
                 iniConfig " = " '"' "$configdir/all/retropie.cfg"
                 iniGet "own_sdl2"
                 if [[ "$ini_value" == "1" ]]; then

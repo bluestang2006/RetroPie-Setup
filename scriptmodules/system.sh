@@ -437,7 +437,7 @@ function get_platform() {
 }
 
 function set_platform_defaults() {
-    __default_opt_flags="-O2"
+    __default_opt_flags="-O3"
 
     # add platform name and 32bit/64bit to platform flags
     __platform_flags=("$__platform" "$(getconf LONG_BIT)bit")
@@ -502,7 +502,7 @@ function platform_rpi3() {
 
 function platform_rpi4() {
     cpu_armv8 "cortex-a72"
-    __platform_flags+=(rpi gles gles3 gles31)
+    __platform_flags+=(rpi gles gles3 gles31 vk)
 }
 
 function platform_odroid-c1() {
