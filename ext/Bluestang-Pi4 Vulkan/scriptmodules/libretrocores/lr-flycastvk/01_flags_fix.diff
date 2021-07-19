@@ -1,0 +1,42 @@
+diff --git a/Makefile b/Makefile
+index f3c5d864..cfabb8d7 100644
+--- a/Makefile
++++ b/Makefile
+@@ -49,8 +49,6 @@ LDFLAGS  :=
+ LDFLAGS_END :=
+ INCFLAGS :=
+ LIBS     :=
+-CFLAGS   := 
+-CXXFLAGS :=
+ 
+ GIT_VERSION := " $(shell git rev-parse --short HEAD || echo unknown)"
+ ifneq ($(GIT_VERSION)," unknown")
+@@ -213,6 +211,7 @@ else ifneq (,$(findstring rpi,$(platform)))
+ 		endif
+ 		CORE_DEFINES += -DLOW_END
+ 	endif
++	LDFLAGS += $(CFLAGS)
+ 
+ # Classic Platforms #####################
+ # Platform affix = classic_<ISA>_<µARCH>
+@@ -933,7 +932,7 @@ else
+ 	else ifneq (,$(findstring classic_arm,$(platform)))
+ 		OPTFLAGS       := -O2
+ 	else ifeq (,$(findstring classic_arm,$(platform)))
+-		OPTFLAGS       := -O3
++		OPTFLAGS       := -O2
+ 	endif
+ 
+ 	CORE_DEFINES   += -DNDEBUG
+diff --git a/core/rend/gl4/gl4.h b/core/rend/gl4/gl4.h
+index 120032d5..e2d34746 100644
+--- a/core/rend/gl4/gl4.h
++++ b/core/rend/gl4/gl4.h
+@@ -1,6 +1,7 @@
+ #pragma once
+ #include "rend/gles/gles.h"
+ #include <unordered_map>
++#include <GL/glcorearb.h>
+ 
+ void gl4DrawStrips(GLuint output_fbo, int width, int height);
+ 
